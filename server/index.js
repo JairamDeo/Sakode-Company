@@ -6,14 +6,15 @@ const path = require('path');
 const sareesRouter = require('./routes/sarees');
 const app = express();
 
+const mongoDB = require("./db")
+mongoDB();
+
 // Load environment variables
 dotenv.config();
 
-// Connect to MongoDB
-mongoose
-  .connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log('MongoDB connected'))
-  .catch((err) => console.log('MongoDB connection error:', err));
+  app.get('/', (req, res) => {
+    res.send('Hello World!')
+  })  
 
 // Middleware
 app.use(cors());
