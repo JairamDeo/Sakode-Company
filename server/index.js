@@ -1,34 +1,39 @@
-const express = require('express');
-const mongoose = require('mongoose');
+const express = require('express')
+const app = express()
+const port = 5000
 const cors = require('cors');
 const dotenv = require('dotenv');
 const path = require('path');
-const sareesRouter = require('./routes/sarees');
-const app = express();
-
-const mongoDB = require("./db")
-mongoDB();
 
 // Load environment variables
 dotenv.config();
 
-  app.get('/', (req, res) => {
-    res.send('Hello World!')
-  })  
+app.get('/', (req, res) => {
+  res.send('Hello World!')
+})
 
-// Middleware
+//MongoDb connection
+const mongoDB = require("./db")
+mongoDB();
+
+const FrontendURL = process.env.FRONTEND_URL;
+//Middleware CORS handling
 app.use(cors());
-app.use(cors({
-  origin: process.env.FRONTEND_URL,
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  credentials: true
-}));
-app.use(express.json()); // Parse incoming JSON requests
+app.use((req,res,next)=>{
+  res.setHeader("Access-Control-Allow-Origin", FrontendURL);
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  next();
+})
+
+app.use(express.json())
 app.use(express.static(path.join(__dirname, 'uploads'))); // Serve uploaded files
 
-// Routes
-app.use('/api/sarees', sareesRouter);
+//Routes
+app.use('/api/sarees' , require("./routes/sarees"));
 
-// Start server
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(port, () => {
+  console.log(`Example app listening on port ${port}`)
+})
