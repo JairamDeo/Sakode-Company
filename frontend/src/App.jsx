@@ -1,6 +1,6 @@
-import React, { Suspense, lazy } from "react";
+import React, { Suspense, lazy, useEffect } from "react";
 import './App.css';
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, useLocation } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 
@@ -17,9 +17,20 @@ const ShaluPage = lazy(() => import("./Categories/ShaluPage"));
 const FancyPage = lazy(() => import("./Categories/FancyPage"));
 const AdminUploadPage = lazy(() => import('./pages/AdminUploadPage'));
 
+function ScrollToTop() {
+  const location = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);  // Scroll to top when the route changes
+  }, [location]);
+
+  return null;
+}
+
 function App() {
   return (
     <Router>
+      <ScrollToTop /> {/* Scroll to top on route change */}
       <Navbar />
       <div className="pt-[80px]">
         <Routes>
