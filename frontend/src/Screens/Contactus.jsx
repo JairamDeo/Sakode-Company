@@ -1,7 +1,7 @@
 import React from 'react';
 import { MapPin, Mail, Phone, Clock } from 'lucide-react';
 
-const ContactUs = () => {
+const Contactus = () => {
   const address = "Patthhar Phod Darwaja, Near Nagpur Freight Carrier Jalalpura, Central Avenue Road Gandhibagh, Nagpur, Maharashtra - 440002";
 
   const handleGetDirections = () => {
@@ -89,4 +89,4 @@ const ContactUs = () => {
   );
 };
 
-export default ContactUs;
+export default Contactus;

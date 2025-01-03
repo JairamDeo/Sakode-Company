@@ -1,30 +1,30 @@
-import React from "react";
-import './App.css'
+import React, { Suspense, lazy } from "react";
+import './App.css';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 
-import Home from "./Screens/Home";
-import Category from "./Screens/Category";
-import Aboutus from "./Screens/Aboutus";
-import Contactus from "./Screens/Contactus";
+// Lazy load pages
+const Home = lazy(() => import("./Screens/Home"));
+const Category = lazy(() => import("./Screens/Category"));
+const Aboutus = lazy(() => import("./Screens/Aboutus"));
+const Contactus = lazy(() => import("./Screens/Contactus"));
 
-import SyntheticPage from "./Categories/SyntheticPage";
-import ZariPage from "./Categories/ZariPage";
-import CottonPage from "./Categories/CottonPage";
-import ShaluPage from "./Categories/ShaluPage";
-import FancyPage from "./Categories/FancyPage";
-import AdminUploadPage from './pages/AdminUploadPage';
+const SyntheticPage = lazy(() => import("./Categories/SyntheticPage"));
+const ZariPage = lazy(() => import("./Categories/ZariPage"));
+const CottonPage = lazy(() => import("./Categories/CottonPage"));
+const ShaluPage = lazy(() => import("./Categories/ShaluPage"));
+const FancyPage = lazy(() => import("./Categories/FancyPage"));
+const AdminUploadPage = lazy(() => import('./pages/AdminUploadPage'));
 
 function App() {
   return (
     <Router>
       <Navbar />
       <div className="pt-[80px]">
-        {/* Define section IDs for smooth scrolling */}
         <Routes>
           <Route path="/" element={
-            <>
+            <Suspense fallback={<div>Loading...</div>}>
               <section id="home">
                 <Home />
               </section>
@@ -37,15 +37,14 @@ function App() {
               <section id="contactus">
                 <Contactus />
               </section>
-            </>
+            </Suspense>
           } />
-          <Route path="/synthetic" element={<SyntheticPage />} />
-          <Route path="/zari" element={<ZariPage />} />
-          <Route path="/cotton" element={<CottonPage />} />
-          <Route path="/shalu" element={<ShaluPage />} />
-          <Route path="/fancy" element={<FancyPage />} />
-
-          <Route path="/admin/upload" element={<AdminUploadPage />} />
+          <Route path="/synthetic" element={<Suspense fallback={<div>Loading...</div>}><SyntheticPage /></Suspense>} />
+          <Route path="/zari" element={<Suspense fallback={<div>Loading...</div>}><ZariPage /></Suspense>} />
+          <Route path="/cotton" element={<Suspense fallback={<div>Loading...</div>}><CottonPage /></Suspense>} />
+          <Route path="/shalu" element={<Suspense fallback={<div>Loading...</div>}><ShaluPage /></Suspense>} />
+          <Route path="/fancy" element={<Suspense fallback={<div>Loading...</div>}><FancyPage /></Suspense>} />
+          <Route path="/admin/upload" element={<Suspense fallback={<div>Loading...</div>}><AdminUploadPage /></Suspense>} />
         </Routes>
       </div>
       <Footer />
