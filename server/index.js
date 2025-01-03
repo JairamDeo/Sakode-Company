@@ -27,6 +27,7 @@ app.use((req,res,next)=>{
   );
   next();
 })
+app.use(cors({ origin: FrontendURL, credentials: true }));
 
 app.use(express.json())
 app.use(express.static(path.join(__dirname, 'uploads'))); // Serve uploaded files
